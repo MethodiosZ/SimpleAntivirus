@@ -76,20 +76,54 @@ int main(int argc,char *argv[]){
     listfiles(rootfolder,&nfiles,&allfiles);
     
     printf("\n[INFO] [9046] [%d-%s-%d %d:%d:%d] Application Started\n",tm.tm_mday,Months[tm.tm_mon],tm.tm_year-100,tm.tm_hour,tm.tm_min,tm.tm_sec);
+    time(&date);
+    tm = *localtime(&date);
     printf("[INFO] [9046] [%d-%s-%d %d:%d:%d] Scanning Directory %s\n",tm.tm_mday,Months[tm.tm_mon],tm.tm_year-100,tm.tm_hour,tm.tm_min,tm.tm_sec,rootfolder);
+    time(&date);
+    tm = *localtime(&date);
     printf("[INFO] [9046] [%d-%s-%d %d:%d:%d] Found %d files\n",tm.tm_mday,Months[tm.tm_mon],tm.tm_year-100,tm.tm_hour,tm.tm_min,tm.tm_sec,nfiles);
+    time(&date);
+    tm = *localtime(&date);
     printf("[INFO] [9046] [%d-%s-%d %d:%d:%d] Searching...\n",tm.tm_mday,Months[tm.tm_mon],tm.tm_year-100,tm.tm_hour,tm.tm_min,tm.tm_sec);
     while(allfiles!=NULL){
-      //Edw tha ginei i douleia
-      printf("%s\n",allfiles->name);
+      FILE *fptr;
+      char line[256];
+      Ifiles *temp,*counter;
+      fptr = fopen(allfiles->name,"r");
+      if(fptr==NULL) printf("Cannot open file\n");
+      while(fgets(line,256,fptr)){
+        if(strstr(line,wallet)){
+          temp=(Ifiles*)malloc(sizeof(Ifiles));
+          temp->name=allfiles->name;
+          temp->type=REPORTED_BITCOIN;
+          temp->next=NULL;
+          if(infected==NULL) infected=temp;
+          else{
+            counter=infected;
+            while(counter->next!=NULL){
+              counter=counter->next;
+            }
+            counter->next=temp;
+          }
+          infiles++;
+        }
+      }
+      fclose(fptr);
       allfiles=allfiles->next;
     }
+    time(&date);
+    tm = *localtime(&date);
     printf("[INFO] [9046] [%d-%s-%d %d:%d:%d] Operation Finished\n",tm.tm_mday,Months[tm.tm_mon],tm.tm_year-100,tm.tm_hour,tm.tm_min,tm.tm_sec);
+    time(&date);
+    tm = *localtime(&date);
     printf("[INFO] [9046] [%d-%s-%d %d:%d:%d] Processed %d files. ",tm.tm_mday,Months[tm.tm_mon],tm.tm_year-100,tm.tm_hour,tm.tm_min,tm.tm_sec,nfiles);
     printf("\033[0;31m");
     printf("Found %d infected\n\n",infiles);
     printf("\033[0m");
-    printf("%s:%s\n");
+    while(infected!=NULL){
+      printf("%s:%s\n",infected->name,thr[infected->type]);
+      infected=infected->next;
+    }
   }
   else if(!strcmp(argv[1],"inspect")){
     rootfolder = argv[2];

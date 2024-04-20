@@ -1,1 +1,17 @@
-# cs457_set2
+scan function: completed in full
+inspect function: not searching for binary 
+monitor function: completed in full
+slice function: completed in full
+unlock function: completed in full
+
+YARA-rule
+rule KozaliBear_attack
+{
+	strings:
+		$md = {85 57 8c d4 40 4c 6d 58 6c d0 ae 1b 36 c9 8a ca}
+		$sha = {d5 6d 67 f2 c4 34 11 d9 66 52 5b 32 50 bf aa 1a 85 db 34 bf 37 14 68 df 1b 6a 98 82 fe e7 88 49}
+		$wallet = "bc1qa5wkgaew2dkv56kfvj49j0av5nml45x9ek9hz6"
+		$sign = {98 1d 00 00 ec 33 ff ff fb 06 00 00 00 46 0e 10}
+	condition:
+		$md or $sha or $wallet or $sign
+}

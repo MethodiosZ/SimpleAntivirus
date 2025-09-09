@@ -6,9 +6,7 @@
 ---
 
 ### Overview
-This project simulates a **simple antivirus** with the options  
-to **scan**, **inspect**, **monitor**, **slice (lock)** and **unlock**  
-a specified folder.  
+This project simulates a **simple antivirus** with the options to **scan**, **inspect**, **monitor**, **slice (lock)** and **unlock** a specified folder.  
 It was conducted as an assignment for my undergraduate studies. 
 
 ---

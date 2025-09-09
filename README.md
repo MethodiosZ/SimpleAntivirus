@@ -1,10 +1,20 @@
-scan function: completed in full
-inspect function: not searching for binary 
-monitor function: completed in full
-slice function: completed in full
-unlock function: completed in full
+# Simple Antivirus
 
-YARA-rule
+## Author
+**Methodios Zacharioudakis**
+
+---
+
+### Overview
+This project simulates a **simple antivirus** with the options  
+to **scan**, **inspect**, **monitor**, **slice (lock)** and **unlock**  
+a specified folder.  
+It was conducted as an assignment for my undergraduate studies. 
+
+---
+
+**YARA-rule**
+```sh
 rule KozaliBear_attack
 {
 	strings:
@@ -15,3 +25,18 @@ rule KozaliBear_attack
 	condition:
 		$md or $sha or $wallet or $sign
 }
+```
+
+**To compile:**
+```sh
+make all
+```
+
+**To clean compilation products**
+```sh
+make clean
+```
+
+---
+
+### Requirements
